@@ -3,6 +3,10 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import ToDoList from './components/TodoList'
 import { GetAllTodoList, AddNewTodo } from './todoAPI'
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 
 const App = () => {
   const [inputValue, setInputValue] = useState("")
@@ -48,18 +52,21 @@ const App = () => {
     <div className='App'>
       To Do List practice<br /><br />
       {/* 1. Input here */}
-      <input
-        type='text'
-        placeholder='add new item'
-        value={inputValue}
-        onChange={handleInputValueChange}
-        onKeyDown={handleKeyDown}
-      />
-      <button onClick={addTodo}>➕</button>
+      <div style={{ display: "flex", gap: "10px" }}>
+        <TextField id="outlined-basic" label="" variant="outlined"
+          type='text'
+          placeholder='add new item'
+          value={inputValue}
+          onChange={handleInputValueChange}
+          onKeyDown={handleKeyDown}
+        />
+        <Fab color="primary" aria-label="add" onClick={addTodo}>
+          <AddIcon />
+        </Fab>
 
-      
+      </div>
       {/* 2. Item List */}
-      <ToDoList itemList={itemList} setItemList={setItemList}/>
+      <ToDoList itemList={itemList} setItemList={setItemList} />
     </div>
   );
 }

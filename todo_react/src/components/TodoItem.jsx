@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { GetAllTodoList, DeleteTodoById, EditTodoById } from '../todoAPI'
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
+
 const TodoItem = ({ item, setItemList }) => {
     const { ID, Description } = item;
     const [description, setDescription] = useState(Description)
@@ -57,33 +61,35 @@ const TodoItem = ({ item, setItemList }) => {
         // console.log('todoChange', event.target.value)
         setDescription(event.target.value)
     }
+    const label = { inputProps: { 'aria-label': 'todo checkbox' } };
+    return <Box sx={{ flexGrow: 1 }} key={ID} >
+        <Grid container spacing={8}>
+            <Grid item xs={1}>
+            <Checkbox {...label} />
+            </Grid>
 
-    return <div key={ID} style={{
-        display: 'flex',
-        gap: '10px',
-        margin: '5px'
-    }}>
-        <div>
-            {
-                isEditing ?
-                    <input type="text" value={description} onChange={handleTodoChange} />
-                    :
-                    <span>{description}</span>
-            }
-        </div>
-        <div>
-            {
-                isEditing ?
-                    <div>
-                        <button onClick={handleSubmit} >Submit</button> {" "}
-                        <button onClick={handleEditCancel} >Cancel</button>
-                    </div>
-                    : <button onClick={handleEdit} >Edit</button>
-            }
+            <Grid item xs={3}>
+                {
+                    isEditing ?
+                        <input type="text" value={description} onChange={handleTodoChange} />
+                        :
+                        <span>{description}</span>
+                }
+            </Grid>
+            <Grid item xs={2}>
+                {
+                    isEditing ?
+                        <div>
+                            <button onClick={handleSubmit} >Submit</button> {" "}
+                            <button onClick={handleEditCancel} >Cancel</button>
+                        </div>
+                        : <button onClick={handleEdit} >Edit</button>
+                }
 
-        </div>
-        <div><button onClick={() => handleDelete(ID)}>Delete</button></div>
-    </div>
+            </Grid>
+            <Grid item xs={2}><button onClick={() => handleDelete(ID)}>Delete</button></Grid>
+        </Grid>
+    </Box>
 }
 
 export default TodoItem
