@@ -1,16 +1,19 @@
-
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import ToDoList from './components/TodoList'
 import { GetAllTodoList, AddNewTodo } from './todoAPI'
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
 
 const App = () => {
   const [inputValue, setInputValue] = useState("")
   const [itemList, setItemList] = useState([]);
+  const [dialogueIsOpen, setDialogIsOpen] = useState(false);
 
   useEffect(() => {
     const getAllToDo = async () => {
@@ -24,6 +27,11 @@ const App = () => {
 
 
   async function addTodo(event) {
+    if (!inputValue) {
+      // alert('Todo description cannot be empty!')
+      setDialogIsOpen(true)
+      return
+    }
 
     try {
       const responseStatus = await AddNewTodo({ Description: inputValue });
@@ -45,12 +53,18 @@ const App = () => {
     // console.log(event.target.value);
   }
   function handleKeyDown(e) {
-    if (e.key === 'Enter') { addTodo(); }
+    if (e.key === 'Enter') { 
+      addTodo();
+    }
+  }
+
+  const handleDialogueClose = () => {
+    setDialogIsOpen(false);
   }
 
   return (
     <div className='App'>
-      To Do List practice<br /><br />
+      To Do List<br /><br />
       {/* 1. Input here */}
       <div style={{ display: "flex", gap: "10px" }}>
         <TextField id="outlined-basic" label="" variant="outlined"
@@ -67,6 +81,18 @@ const App = () => {
       </div>
       {/* 2. Item List */}
       <ToDoList itemList={itemList} setItemList={setItemList} />
+
+
+      <Dialog
+        open={dialogueIsOpen}
+        onClose={handleDialogueClose}
+      >
+        <DialogContent>
+          <DialogContentText>
+            Todo description cannot be empty!
+          </DialogContentText>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

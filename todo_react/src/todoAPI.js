@@ -23,18 +23,28 @@ export async function GetTodoById(id) {
 }
 
 export async function DeleteTodoById(id) {
-    const url = `${baseURL}/todo/delete/${id}`
-    // Default options are marked with *
-    const response = await fetch(url, {
+    const url = `${baseURL}/todo/delete/${id}`;
+    
+    try {
+      const response = await fetch(url, {
         method: "DELETE",
         headers: {
-            "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
-    });
-    const jsonData = await response.json();
-    console.log(jsonData);
-    return response.status;
-}
+      });
+  
+      if (response.ok) {
+        const jsonData = await response.json();
+        console.log(jsonData);
+        return response.status;
+      } else {
+        console.log("Request failed with status:", response.status);
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+  
 
 export async function EditTodoById(id, description) {
     const url = `${baseURL}/todo/${id}?description=${description}`
@@ -53,15 +63,17 @@ export async function EditTodoById(id, description) {
 export async function AddNewTodo(payload) {
     const url = `${baseURL}/todo/add`
     // Default options are marked with *
-    const response = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // body data type must match "Content-Type" header
-    });
-    console.log("responseee", response);
-    const jsonData = await response.json();
-    console.log("Iddddd: ", jsonData);
-    return response.status
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload), // body data type must match "Content-Type" header
+        });
+        console.log("responseee", response);
+        const jsonData = await response.json();
+        console.log("Iddddd: ", jsonData);
+        return response.status
+    
 };

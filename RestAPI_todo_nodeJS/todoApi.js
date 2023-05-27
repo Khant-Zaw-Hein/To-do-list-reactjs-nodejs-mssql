@@ -57,7 +57,10 @@ router.route('/todo/delete/:id').delete((request, response) => {
     Db.deleteTodoById(request.params.id).then(result => {
         // console.log(result);
         response.json(result);
-    })
+    })    .catch(error => {
+        console.log(error);
+        response.status(500).json({ error: 'Internal Server Error' });
+      });
 })
 
 
