@@ -60,6 +60,22 @@ export async function EditTodoById(id, description) {
     return response.status;
 }
 
+export async function UpdateTodoCheckboxById(id, isChecked) {
+    console.log("checkbox status in UpdateTodoCheckboxById:", isChecked);
+
+    const url = `${baseURL}/todo/${id}?isChecked=${isChecked}`;
+    const response = await fetch(url, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const jsonData = await response.json();
+    console.log(jsonData);
+    return response.status;
+}
+
+
 export async function AddNewTodo(payload) {
     const url = `${baseURL}/todo/add`
     // Default options are marked with *

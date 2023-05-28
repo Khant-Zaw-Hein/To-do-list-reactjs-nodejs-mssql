@@ -56,6 +56,25 @@ const editTodoById = async (id, desc) => {
         console.log(err);
     }
 }
+const UpdateTodoCheckboxById = async (id, isChecked) => {
+    try {
+        let pool = await sql.connect(config);
+        let checkStatus = isChecked === 'true' ? true : false;
+        const query = `UPDATE To_do_List SET isChecked = ${checkStatus} WHERE id = ${id}`
+        console.log(query)
+
+        let todoList = await pool.request()
+            .input('input', sql.Int, id)
+            .input('modifiedDate', sql.DateTime, new Date())
+            .input('checkboxStatus', sql.Bit, checkStatus)
+            .query(`UPDATE To_do_List SET isChecked = @checkboxStatus, ModifiedDate = @modifiedDate
+              WHERE id = ${id}`);
+        return todoList.recordsets;
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 
 async function addTodo(todoModel) {
     try {
@@ -78,5 +97,6 @@ module.exports = {
     getTodoById: getTodoById,
     addTodo: addTodo,
     deleteTodoById: deleteTodoById,
-    editTodoById: editTodoById
+    editTodoById: editTodoById,
+    UpdateTodoCheckboxById : UpdateTodoCheckboxById
 }

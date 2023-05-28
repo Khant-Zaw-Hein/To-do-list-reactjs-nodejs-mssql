@@ -53,6 +53,15 @@ router.route('/todo/:id').put((request, response) => {
     })
 })
 
+router.route('/todo/:id').patch((request, response) => {
+    Db.UpdateTodoCheckboxById(request.params.id, request.query.isChecked).then(result => {
+        response.json(result);
+    })    .catch(error => {
+        console.log(error);
+        response.status(500).json({ error: 'An error occurred.' });
+      });
+})
+
 router.route('/todo/delete/:id').delete((request, response) => {
     Db.deleteTodoById(request.params.id).then(result => {
         // console.log(result);

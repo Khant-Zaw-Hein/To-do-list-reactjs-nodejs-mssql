@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { GetAllTodoList, DeleteTodoById, EditTodoById } from '../todoAPI';
+import React, { useState, useEffect } from 'react';
+import { GetAllTodoList, DeleteTodoById, EditTodoById, UpdateTodoCheckboxById } from '../todoAPI';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -7,28 +7,36 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 const TodoItem = ({ item, setItemList }) => {
-    // console.log(item);
-
     const { ID, Description, isChecked } = item;
     const [description, setDescription] = useState(Description);
-    const [isEditing, setIsEditing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [isCompleted, setIsCompleted] = useState(isChecked);
+    const [isEditing, setIsEditing] = useState(false);
 
-    // const handleDelete = async () => {
-    //     try {
-    //         const responseCode = await DeleteTodoById(ID);
-    //         console.log("responseCode", responseCode);
-    //         if (responseCode === 200) {
-    //             console.log(`todo item ${ID} deleted`);
-    //             const todoList = await GetAllTodoList();
-    //             setItemList(todoList);
-    //         } else {
-    //             throw new Error(`failed to remove item ${ID}`);
-    //         }
-    //     } catch (err) {
-    //         console.log("error in deleteTodoById", err);
-    //     }
-    // };
+    useEffect(() => {
+        const updateCheckboxStatus = async () => {
+            try{
+                const responseCode = await UpdateTodoCheckboxById(ID, isCompleted);
+                
+                console.log("res code:", responseCode);
+                if(responseCode === 200) {
+                    console.log(`todo item ${ID} updated the checkbox`);
+                    const todoList = await GetAllTodoList();
+                    setItemList(todoList);
+                    
+                } else{
+                    throw new Error(`failed to update the checkbox for id: ${ID}`);
+                }
+    
+            } catch (err) {
+                console.log("error in handleCheckboxStatusToggle");
+                throw err;
+            };
+        }
+
+        // updateCheckboxStatus()
+    }, [isCompleted])
+
     const handleDelete = async () => {
         try {
             const responseCode = await DeleteTodoById(ID);
@@ -51,9 +59,11 @@ const TodoItem = ({ item, setItemList }) => {
     };
 
     const handleEditCancel = () => setIsEditing(false);
+
     const handleSubmit = async () => {
         setIsEditing(false);
         try {
+            console.log("editing description to:", description);
             const responseCode = await EditTodoById(ID, description);
             console.log("res code: ", responseCode);
             if (responseCode === 200) {
@@ -72,10 +82,29 @@ const TodoItem = ({ item, setItemList }) => {
         setDescription(event.target.value);
     };
 
-    const handleCheckboxStatusToggle = () => { 
-        setIsCompleted(!isCompleted)
-        // update database
-        
+    const handleCheckboxStatusToggle = async () => { 
+        setIsLoading(true)
+        try{
+            const responseCode = await UpdateTodoCheckboxById(ID, !isCompleted);
+            setIsCompleted(!isCompleted)
+            
+            console.log("res code:", responseCode);
+            if(responseCode === 200) {
+                console.log(`todo item ${ID} updated the checkbox`);
+                // const todoList = await GetAllTodoList();
+                // setItemList(todoList);
+                
+            } else{
+                throw new Error(`failed to update the checkbox for id: ${ID}`);
+            }
+
+        } catch (err) {
+            console.log("error in handleCheckboxStatusToggle");
+            throw err;
+        }
+        finally {
+            setIsLoading(false)
+        }
     }
 
     const label = { inputProps: { 'aria-label': 'todo checkbox' } };
@@ -87,12 +116,12 @@ const TodoItem = ({ item, setItemList }) => {
                 alignItems="center"
                 container spacing={{xs:8, sm:8, md:8}}>
                 <Grid item xs={1}>
-                    <Checkbox {...label} checked={isCompleted} onClick={handleCheckboxStatusToggle}/>
+                    <Checkbox {...label} checked={isCompleted} onClick={handleCheckboxStatusToggle} disabled={isLoading}/>
                 </Grid>
 
                 <Grid item xs={3} md={3}>
                     {isEditing ? (
-                        <TextField variant="outlined" defaultValue={description} />
+                        <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange}/>
                         // <input type="text" value={description} onChange={handleTodoChange} />
                     ) : (
                         
