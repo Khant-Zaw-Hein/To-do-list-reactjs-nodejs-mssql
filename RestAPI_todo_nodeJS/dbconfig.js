@@ -2,7 +2,7 @@
 const config = {
     user :'sa',
     password :'localadmin',
-    server:'127.0.0.1',
+    server:'localhost',
     // server:'15.0.2000.5',
     database:'Todo',
     options:{

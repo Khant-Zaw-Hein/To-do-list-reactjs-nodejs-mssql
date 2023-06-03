@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:4200/api"
+const baseURL = "http://localhost:4200"
 
 export async function GetAllTodoList() {
     const url = `${baseURL}/todo`
@@ -44,7 +44,6 @@ export async function DeleteTodoById(id) {
       console.log("Error:", error);
     }
   }
-  
 
 export async function EditTodoById(id, description) {
     const url = `${baseURL}/todo/${id}?description=${description}`
@@ -91,5 +90,4 @@ export async function AddNewTodo(payload) {
         const jsonData = await response.json();
         console.log("Iddddd: ", jsonData);
         return response.status
-    
 };

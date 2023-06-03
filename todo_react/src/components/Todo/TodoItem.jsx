@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetAllTodoList, DeleteTodoById, EditTodoById, UpdateTodoCheckboxById } from '../todoAPI';
+import { GetAllTodoList, DeleteTodoById, EditTodoById, UpdateTodoCheckboxById } from '../../api/todoAPI';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -86,10 +86,11 @@ const TodoItem = ({ item, setItemList }) => {
         setIsLoading(true)
         try{
             const responseCode = await UpdateTodoCheckboxById(ID, !isCompleted);
-            setIsCompleted(!isCompleted)
+            
             
             console.log("res code:", responseCode);
             if(responseCode === 200) {
+                setIsCompleted(!isCompleted)
                 console.log(`todo item ${ID} updated the checkbox`);
                 // const todoList = await GetAllTodoList();
                 // setItemList(todoList);
@@ -116,7 +117,11 @@ const TodoItem = ({ item, setItemList }) => {
                 alignItems="center"
                 container spacing={{xs:8, sm:8, md:8}}>
                 <Grid item xs={1}>
-                    <Checkbox {...label} checked={isCompleted} onClick={handleCheckboxStatusToggle} disabled={isLoading}/>
+                    <Checkbox {...label} 
+                        checked={isCompleted} 
+                        onClick={handleCheckboxStatusToggle} 
+                        disabled={isLoading}
+                    />
                 </Grid>
 
                 <Grid item xs={3} md={3}>

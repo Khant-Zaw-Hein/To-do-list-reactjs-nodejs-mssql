@@ -1,4 +1,4 @@
-class Todo{
+export class Todo{
     constructor(ID, Description, isChecked, Deleted, CreatedDate, ModifiedDate){
         this.ID = ID;
         this.Description = Description;
@@ -8,5 +8,3 @@ class Todo{
         this.ModifiedDate = ModifiedDate;
     };
 }
-
-module.exports = Todo;
