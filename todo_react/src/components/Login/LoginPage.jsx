@@ -47,22 +47,20 @@ export default function LoginPage() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log("username in handleLogin try:", username, password);
+      // console.log("username in handleLogin try:", username, password);
       const responseCode = await Login(username, password);
       // console.log("responseCode:", responseCode);
       if (responseCode === 200) {
         console.log("Login success");
-        const UserAccount = GetUserAccountByUsernameAndPassword(username);
-        const { UserAccountId, Username } = UserAccount;
-        localStorage.setItem("CurrentUserId", UserAccountId);
-        localStorage.setItem("CurrentUsername", Username);
-        console.log("UserAccount", UserAccount);
 
-        return;
-      } else {
-        console.log("username or password is incorrect");
-        throw new Error("failed to login:");
-      }
+          const UserAccount = await GetUserAccountByUsernameAndPassword(username, password);
+            const { UserAccountId, Username } = UserAccount;
+            localStorage.setItem("CurrentUserId", UserAccountId);
+            localStorage.setItem("CurrentUsername", Username);
+            console.log("UserAccount: ", UserAccountId, Username);
+            console.log("localStorage: ", localStorage.getItem("CurrentUsername"));
+
+    }
     } catch (error) {
       console.log("failed to login");
       throw new Error("An error occurred during login");
@@ -80,45 +78,45 @@ export default function LoginPage() {
   // };
 
   return (
-<ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box component="form" onSubmit={handleLoginSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              onChange={handleUsername}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange= {handlePassword}
-            />
-            <FormControlLabel
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            autoComplete="username"
+            autoFocus
+            onChange={handleUsername}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={handlePassword}
+          />
+          {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            {/* <Grid container>
+            /> */}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          {/* <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
@@ -130,7 +128,7 @@ export default function LoginPage() {
                 </Link>
               </Grid>
             </Grid> */}
-          </Box>
+        </Box>
       </Container>
     </ThemeProvider>
   );

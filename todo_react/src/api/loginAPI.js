@@ -14,8 +14,8 @@ export const Login = async (username, password) => {
         });
         // console.log('response data', await response.json());
         if(response.ok){
-            const jsonData = await response.json();
-            console.log("Login successful");
+            // const jsonData = await response.json();
+            // console.log("Login successful");
             return response.status;
         } else {
             console.log("Login failed with stats", response.status);
@@ -29,9 +29,8 @@ export const Login = async (username, password) => {
 }
 
 export const GetUserAccountByUsernameAndPassword = async (username, password) => {
-    const url = baseURL + "/login";
-    // console.log("login in api:", username, password);
-    // console.log('connecting to:', url);
+    const url = baseURL + "/userAccount";
+    console.log('connecting to:', url);
     try{
         const response = await fetch (url, {
             method: "POST",
@@ -40,20 +39,18 @@ export const GetUserAccountByUsernameAndPassword = async (username, password) =>
             },
             body: JSON.stringify({username, password}),
         });
-        // console.log('response data', await response.json());
         if(response.ok){
             const jsonData = await response.json();
-            console.log("User", jsonData.username);
+            console.log("jsonData:", jsonData);
+            // console.log("user fetched");
             return jsonData;
         } else {
-            console.log("Login failed with stats", response.status);
-            throw new Error("Login failed");
+            console.log("User fetch failed with status", response.status);
+            throw new Error("fetching user failed");
         }
     } catch(error){
         console.log("Error: " + error.message);
-        // Handle the error
-        throw new Error("An error occurred during login");
+        throw new Error("An error occurred during fetching user");
     }
 }
 
-// GetUserAccountByUsername

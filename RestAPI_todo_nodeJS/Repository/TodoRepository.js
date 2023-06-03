@@ -10,7 +10,6 @@ const getAllTodoList = async () => {
         console.log(err);
     }
 }
-
 const getTodoById = async (id) => {
     try {
         let pool = await sql.connect(config);
@@ -22,7 +21,6 @@ const getTodoById = async (id) => {
         console.log(err);
     }
 }
-
 const deleteTodoById = async (id) => {
     try {
       let pool = await sql.connect(config);
@@ -37,7 +35,6 @@ const deleteTodoById = async (id) => {
       console.log(err);
     }
   }
-  
 
 const editTodoById = async (id, desc) => {
     try {
@@ -75,7 +72,6 @@ const UpdateTodoCheckboxById = async (id, isChecked) => {
     }
 }
 
-
 async function addTodo(todoModel) {
     try {
         let pool = await sql.connect(config);
@@ -91,7 +87,6 @@ async function addTodo(todoModel) {
         console.log(ex);
     }
 }
-
 module.exports = {
     getAllTodoList: getAllTodoList,
     getTodoById: getTodoById,

@@ -19,14 +19,14 @@ const Login = async (username, password) => {
     }
   };
 
-  const GetUserAccountByUsernameAndPassword = async (username) => {
+  const GetUserAccountByUsernameAndPassword = async (username, password) => {
     try {
       let pool = await sql.connect(config);
       let user = await pool
         .request()
         .input('username', sql.VarChar, username)
         .input('password', sql.VarChar, password)
-        .query('SELECT * FROM UserAccount WHERE Username = @username AND Password = @password AND Active = 1');
+        .query('SELECT UserAccountId, Username, Active FROM UserAccount WHERE Username = @username AND Password = @password AND Active = 1');
       return user.recordset;
     } catch (err) {
       console.log(err);

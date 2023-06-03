@@ -1,4 +1,3 @@
-
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -9,8 +8,6 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-// var router = express.Router();
-// app.use('/api', router);
 
 // import routes
 const loginRoutes = require("./routes/Login");
