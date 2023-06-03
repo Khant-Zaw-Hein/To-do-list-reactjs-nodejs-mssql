@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
 import { Login } from '../../api/loginAPI';
+import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
 
 // function Copyright(props) {
 //   return (
@@ -48,9 +49,15 @@ export default function LoginPage() {
     try {
       console.log("username in handleLogin try:", username, password);
       const responseCode = await Login(username, password);
-      console.log("responseCode:", responseCode);
+      // console.log("responseCode:", responseCode);
       if (responseCode === 200) {
         console.log("Login success");
+        const UserAccount = GetUserAccountByUsernameAndPassword(username);
+        const { UserAccountId, Username } = UserAccount;
+        localStorage.setItem("CurrentUserId", UserAccountId);
+        localStorage.setItem("CurrentUsername", Username);
+        console.log("UserAccount", UserAccount);
+
         return;
       } else {
         console.log("username or password is incorrect");

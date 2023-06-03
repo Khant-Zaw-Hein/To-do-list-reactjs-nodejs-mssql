@@ -7,6 +7,14 @@ export async function GetAllTodoList() {
     console.log('GetAllTodoList', jsonData);
     return jsonData
 }
+// GetAllTodoListByUserAccountId
+export async function GetAllTodoListByUserAccountId(userAccountId) {
+    const url = baseURL + '/todo/' + userAccountId;
+    const response = await fetch(url);
+    const jsonData = await response.json();
+    console.log('GetAllTodoListByUserId', jsonData);
+    return jsonData; 
+}
 
 export async function GetTodoById(id) {
     const url = `${baseURL}/todo/${id}`

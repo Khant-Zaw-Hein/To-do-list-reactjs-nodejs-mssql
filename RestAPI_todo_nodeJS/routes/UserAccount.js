@@ -4,10 +4,8 @@ var userAccountRepo = require('../Repository/UserAccountRepository');
 
 router.route('').post((request, response) => {
     const { username, password} = request.body;
-    console.log("login request received", username, password);
-    userAccountRepo.Login(username, password).then(result => {
-        // console.log("result", result);
-        // console.log("result length", result.length);
+    console.log("user request received", username, password);
+    userAccountRepo.GetUserAccountByUsernameAndPassword(username, password).then(result => {
         if(result.length > 0) {
             console.log("result", result[0]);
             response.json(result[0]);
@@ -16,10 +14,8 @@ router.route('').post((request, response) => {
         }
     }) .catch(error => {
         console.log(error);
-        response.status(400).json({ error: "An error occurred during login." });
+        response.status(400).json({ error: "User not found" });
     });
 });
-
-
 
 module.exports = router;
