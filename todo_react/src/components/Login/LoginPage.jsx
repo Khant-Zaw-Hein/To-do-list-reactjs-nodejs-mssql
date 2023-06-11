@@ -13,8 +13,10 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Login } from '../../api/loginAPI';
 import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
+import { Navigate } from 'react-router-dom';
 
 // function Copyright(props) {
 //   return (
@@ -37,6 +39,8 @@ const defaultTheme = createTheme();
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [authenticated, setauthenticated] = useState(localStorage.getItem("authenticated") || false);
+  const navigate = useNavigate();
 
   const handleUsername = (e) => {
     setUsername(e.target.value);
@@ -47,34 +51,31 @@ export default function LoginPage() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      // console.log("username in handleLogin try:", username, password);
       const responseCode = await Login(username, password);
-      // console.log("responseCode:", responseCode);
       if (responseCode === 200) {
         console.log("Login success");
 
-          const UserAccount = await GetUserAccountByUsernameAndPassword(username, password);
-            const { UserAccountId, Username } = UserAccount;
-            localStorage.setItem("CurrentUserId", UserAccountId);
-            localStorage.setItem("CurrentUsername", Username);
-            console.log("UserAccount: ", UserAccountId, Username);
-            console.log("localStorage: ", localStorage.getItem("CurrentUsername"));
-    }
+        const UserAccount = await GetUserAccountByUsernameAndPassword(username, password);
+        const { UserAccountId, Username } = UserAccount;
+        localStorage.setItem("CurrentUserId", UserAccountId);
+        localStorage.setItem("CurrentUsername", Username);
+        localStorage.setItem("authenticated", true);
+        // redirect to home page + access to protected routes
+        console.log("localstorage", localStorage);
+        navigate("/todo", { replace: true });
+
+        // console.log("UserAccount: ", UserAccountId, Username);
+        // console.log("localStorage: ", localStorage.getItem("CurrentUsername"));
+      } else {
+        localStorage.setItem("authenticated", false);
+        console.log("failed to login and redirecting back to login page");
+        navigate("/login");
+      }
     } catch (error) {
       console.log("failed to login");
       throw new Error("An error occurred during login");
     }
   };
-
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     username: data.get('username'),
-  //     password: data.get('password'),
-  //   });
-  // };
 
   return (
     <ThemeProvider theme={defaultTheme}>
