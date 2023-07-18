@@ -41,7 +41,7 @@ export const GetUserAccountByUsernameAndPassword = async (username, password) =>
         });
         if(response.ok){
             const jsonData = await response.json();
-            console.log("jsonData:", jsonData);
+            // console.log("jsonData:", jsonData);
             // console.log("user fetched");
             return jsonData;
         } else {

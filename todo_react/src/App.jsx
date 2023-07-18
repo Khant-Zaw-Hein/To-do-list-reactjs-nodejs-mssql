@@ -1,28 +1,53 @@
 import Todo from './components/Todo/Todo'
 import LoginPage from './components/Login/LoginPage';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
-import NotFound from './components/Helpers/NotFound';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import NotFound from './components/Routes/NotFound';
 import Home from './components/Home/Home';
 import Crypto from './components/Crypto/Crypto';
-import Navbar from './components/Navbar/Navbar';
+import Navbar from './components/Routes/Navbar';
+import ProtectedRoutes from './components/Routes/ProtectedRoutes';
 
 const App = () => {
 
   return (
-    // <LoginPage/>
-    // <Todo/>
+
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navbar/>} >
-          <Route index element={<Home />} />
-          <Route path="Todo" element={<Todo />} />
-          <Route path="Crypto" element={<Crypto />} />
-          <Route path="Login" element={<LoginPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
+        <Route index 
+        // path="/login" 
+        element={<LoginPage />} 
+        />
+        <Route
+          path="/home"
+          element={
+            <ProtectedRoutes>
+              <Navbar />
+              <Home />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/todo"
+          element={
+            <ProtectedRoutes>
+              <Navbar />
+              <Todo />
+            </ProtectedRoutes>
+          }
+        />
+        {/* <Route
+          path="/crypto"
+          element={
+            <ProtectedRoutes>
+              <Navbar />
+              <Crypto />
+            </ProtectedRoutes>
+          }
+        /> */}
+        <Route path="*" element={<Navigate to="/todo" replace />} />
+        {/* <Route path="*" element={<NotFound />} /> */}
       </Routes>
     </BrowserRouter>
-
   );
 }
 
