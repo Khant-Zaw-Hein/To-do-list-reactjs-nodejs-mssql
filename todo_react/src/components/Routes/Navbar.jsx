@@ -17,9 +17,9 @@ const Navbar = () => {
           <li>
             <Link to="/todo">Todo Notes</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/crypto">Crypto</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/login" onClick={handleLogout} >Logout</Link>
           </li>

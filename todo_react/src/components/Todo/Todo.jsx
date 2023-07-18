@@ -1,7 +1,7 @@
 import '../Todo/Todo.css';
 import React, { useState, useEffect } from 'react';
 import ToDoList from '../Todo/TodoList';
-import { GetAllTodoList, AddNewTodo } from '../../api/todoAPI';
+import { GetAllTodoList, AddNewTodo, GetAllTodoListByUserAccountId } from '../../api/todoAPI';
 // import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Fab from '@mui/material/Fab';
@@ -15,11 +15,22 @@ const Todo = () => {
   const [itemList, setItemList] = useState([]);
   const [dialogueIsOpen, setDialogIsOpen] = useState(false);
 
+  // useEffect(() => {
+  //   const getAllToDo = async () => {
+  //     const todoList = await GetAllTodoList()
+  //     console.log('todoList', todoList)
+  //     setItemList(todoList)
+  //   }
+
+  //   getAllToDo()
+  // }, [])
+
   useEffect(() => {
     const getAllToDo = async () => {
-      const todoList = await GetAllTodoList()
-      console.log('todoList', todoList)
-      setItemList(todoList)
+      var id = localStorage.getItem("CurrentUserId");
+      const todoList = await GetAllTodoListByUserAccountId(id);
+      console.log('todoList by UserAccountId', todoList);
+      setItemList(todoList);
     }
 
     getAllToDo()
@@ -39,12 +50,13 @@ const Todo = () => {
       if (responseStatus === 201) {
         console.log("new todo item has been added")
         //when adding success, refresh the list
-        const todoList = await GetAllTodoList()
+        var id = localStorage.getItem("CurrentUserId");
+        const todoList = await GetAllTodoListByUserAccountId(id);
         console.log('todoList', todoList)
         setItemList(todoList)
       } else { throw new Error("failed to add new todo item."); }
     } catch (error) {
-      console.log("Errorrr in addTodo: ", error);
+      console.log("Error in addTodo: ", error);
     }
   }
 
@@ -64,9 +76,9 @@ const Todo = () => {
 
   return (
     <div className='App'>
-      To Do List<br /><br />
+      {/* To Do List<br /><br /> */}
       {/* 1. Input here */}
-      <div style={{ display: "flex", gap: "10px" }}>
+      <div style={{ display: "flex", gap: "10px", margin: "15px" }}>
         <TextField id="outlined-basic" label="" variant="outlined"
           type='text'
           placeholder='add new item'

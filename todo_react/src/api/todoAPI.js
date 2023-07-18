@@ -7,13 +7,24 @@ export async function GetAllTodoList() {
     console.log('GetAllTodoList', jsonData);
     return jsonData
 }
-// GetAllTodoListByUserAccountId
+// export async function GetAllTodoListByUserAccountId(userAccountId) {
+//     const url = baseURL + '/todo/user/' + userAccountId;
+//     const response = await fetch(url);
+//     const jsonData = await response.json();
+//     console.log('GetAllTodoListByUserId', jsonData);
+//     return jsonData; 
+// }
 export async function GetAllTodoListByUserAccountId(userAccountId) {
-    const url = baseURL + '/todo/' + userAccountId;
-    const response = await fetch(url);
+    const url = baseURL + '/todo/user/' + userAccountId;
+    const response = await fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
     const jsonData = await response.json();
-    console.log('GetAllTodoListByUserId', jsonData);
-    return jsonData; 
+    console.log(jsonData);
+    return jsonData
 }
 
 export async function GetTodoById(id) {
@@ -84,7 +95,8 @@ export async function UpdateTodoCheckboxById(id, isChecked) {
 
 
 export async function AddNewTodo(payload) {
-    const url = `${baseURL}/todo/add`
+    var id = localStorage.getItem("CurrentUserId");
+    const url = `${baseURL}/todo/add/${id}`
     // Default options are marked with *
 
         const response = await fetch(url, {
@@ -99,3 +111,4 @@ export async function AddNewTodo(payload) {
         console.log("Iddddd: ", jsonData);
         return response.status
 };
+

@@ -7,6 +7,11 @@ router.route('').get((request, response) => {
         response.json(result[0]);
     })
 })
+router.route('/user/:id').get((request, response) => {
+    todoRepo.getAllTodoListByUserAccountId(request.params.id).then(result => {
+        response.json(result[0]);
+    })
+})
 
 router.route('/:id').get((request, response) => {
     todoRepo.getTodoById(request.params.id).then(result => {
@@ -15,11 +20,19 @@ router.route('/:id').get((request, response) => {
     })
 })
 
-router.route('/add').post((request, response) => {
+// router.route('/add/:id').post((request, response) => {
+//     // console.log("'/add'", request);
+//     let todoModel = {...request.body}
+
+//     todoRepo.addTodo(todoModel).then(result => {
+//         response.status(201).json(result);
+//     })
+// })
+router.route('/add/:id').post((request, response) => {
     // console.log("'/add'", request);
     let todoModel = {...request.body}
 
-    todoRepo.addTodo(todoModel).then(result => {
+    todoRepo.addTodo(request.params.id, request.body.Description).then(result => {
         response.status(201).json(result);
     })
 })

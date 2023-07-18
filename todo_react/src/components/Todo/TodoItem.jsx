@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { GetAllTodoList, DeleteTodoById, EditTodoById, UpdateTodoCheckboxById } from '../../api/todoAPI';
+import { GetAllTodoList, DeleteTodoById, EditTodoById, UpdateTodoCheckboxById, GetAllTodoListByUserAccountId } from '../../api/todoAPI';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -43,7 +43,9 @@ const TodoItem = ({ item, setItemList }) => {
             console.log("responseCode", responseCode);
             if (responseCode === 200) {
                 console.log(`todo item ${ID} deleted`);
-                const todoList = await GetAllTodoList();
+                // const todoList = await GetAllTodoList();
+                var id = localStorage.getItem("CurrentUserId");
+                const todoList = await GetAllTodoListByUserAccountId(id);
                 setItemList(todoList);
             } else {
                 throw new Error(`failed to remove item ${ID}`);
@@ -68,7 +70,9 @@ const TodoItem = ({ item, setItemList }) => {
             console.log("res code: ", responseCode);
             if (responseCode === 200) {
                 console.log(`todo item ${ID} updated`);
-                const todoList = await GetAllTodoList();
+                // const todoList = await GetAllTodoList();
+                var id = localStorage.getItem("CurrentUserId");
+                const todoList = await GetAllTodoListByUserAccountId(id);
                 setItemList(todoList);
             } else {
                 throw new Error(`failed to update item ${ID}`);
