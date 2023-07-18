@@ -16,7 +16,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Login } from '../../api/loginAPI';
 import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
-import { Navigate } from 'react-router-dom';
 
 // function Copyright(props) {
 //   return (
@@ -39,7 +38,6 @@ const defaultTheme = createTheme();
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [authenticated, setauthenticated] = useState(localStorage.getItem("authenticated") || false);
   const navigate = useNavigate();
 
   const handleUsername = (e) => {
