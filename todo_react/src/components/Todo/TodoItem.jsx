@@ -130,7 +130,7 @@ const TodoItem = ({ item, setItemList }) => {
 
                 <Grid item xs={7} md={3}>
                     {isEditing ? (
-                        <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange}/>
+                        <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange} size="small" />
                         // <input type="text" value={description} onChange={handleTodoChange} />
                     ) : (
                         
