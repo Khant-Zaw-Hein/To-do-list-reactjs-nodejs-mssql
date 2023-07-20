@@ -77,6 +77,7 @@ const Todo = () => {
   return (
     <div className='App'>
       {/* To Do List<br /><br /> */}
+      
       {/* 1. Input here */}
       <div style={{ display: "flex", gap: "10px", margin: "15px" }}>
         <TextField id="outlined-basic" label="" variant="outlined"
@@ -85,6 +86,7 @@ const Todo = () => {
           value={inputValue}
           onChange={handleInputValueChange}
           onKeyDown={handleKeyDown}
+          style={{ width: "60%", maxWidth: "600px" }}
         />
         <Fab color="primary" aria-label="add" onClick={addTodo}>
           <AddIcon />

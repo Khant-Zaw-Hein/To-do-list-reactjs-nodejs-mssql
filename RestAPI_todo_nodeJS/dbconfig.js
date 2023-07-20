@@ -6,9 +6,9 @@ const config = {
     // server:'15.0.2000.5',
     database:'Todo',
     options:{
-        trustedconnection: true,
-        enableArithAbort : true, 
-        instancename :'KZH-PC',
+        trustedConnection: true,
+        enableArithAbort : true,
+        instancename :'MMO_LENOVO',
         trustServerCertificate: true
     },
     port : 1433

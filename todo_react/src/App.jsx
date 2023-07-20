@@ -1,9 +1,11 @@
 import Todo from './components/Todo/Todo'
 import LoginPage from './components/Login/LoginPage';
-import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+import { 
+  Route, Routes, BrowserRouter, //Navigate 
+} from 'react-router-dom';
 import NotFound from './components/Routes/NotFound';
 import Home from './components/Home/Home';
-import Crypto from './components/Crypto/Crypto';
+// import Crypto from './components/Crypto/Crypto';
 import Navbar from './components/Routes/Navbar';
 import ProtectedRoutes from './components/Routes/ProtectedRoutes';
 
@@ -14,7 +16,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route index 
-        // path="/login" 
+        path="/login" 
         element={<LoginPage />} 
         />
         <Route
@@ -44,8 +46,8 @@ const App = () => {
             </ProtectedRoutes>
           }
         /> */}
-        <Route path="*" element={<Navigate to="/todo" replace />} />
-        {/* <Route path="*" element={<NotFound />} /> */}
+        {/* <Route path="*" element={<Navigate to="/todo" replace />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

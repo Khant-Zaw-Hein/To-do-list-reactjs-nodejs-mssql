@@ -119,7 +119,7 @@ const TodoItem = ({ item, setItemList }) => {
             <Grid 
                 display="flex"
                 alignItems="center"
-                container spacing={{xs:8, sm:8, md:8}}>
+                container spacing={{xs:4, sm:8, md:8}}>
                 <Grid item xs={1}>
                     <Checkbox {...label} 
                         checked={isCompleted} 
@@ -128,7 +128,7 @@ const TodoItem = ({ item, setItemList }) => {
                     />
                 </Grid>
 
-                <Grid item xs={3} md={3}>
+                <Grid item xs={7} md={3}>
                     {isEditing ? (
                         <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange}/>
                         // <input type="text" value={description} onChange={handleTodoChange} />
