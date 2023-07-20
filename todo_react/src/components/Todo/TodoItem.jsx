@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import './Todo.css'
 
 const TodoItem = ({ item, setItemList }) => {
     const { ID, Description, isChecked } = item;
@@ -119,8 +120,8 @@ const TodoItem = ({ item, setItemList }) => {
             <Grid 
                 display="flex"
                 alignItems="center"
-                container spacing={{xs:4, sm:8, md:8}}>
-                <Grid item xs={1}>
+                container spacing={{xs:2, sm:2, md:2}}>
+                <Grid item xs={0.5} className="checkbox-grid">
                     <Checkbox {...label} 
                         checked={isCompleted} 
                         onClick={handleCheckboxStatusToggle} 
@@ -128,9 +129,10 @@ const TodoItem = ({ item, setItemList }) => {
                     />
                 </Grid>
 
+                {/* Text field */}
                 <Grid item xs={7} md={3}>
                     {isEditing ? (
-                        <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange} size="small" />
+                        <TextField variant="outlined" defaultValue={description} onChange={handleTodoChange} size="small" style={{ width: "100%" }}/>
                         // <input type="text" value={description} onChange={handleTodoChange} />
                     ) : (
                         
