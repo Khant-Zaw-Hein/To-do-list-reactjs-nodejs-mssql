@@ -5,15 +5,15 @@ import TextField from '@mui/material/TextField';
 // import Avatar from '@mui/material/Avatar';
 // import FormControlLabel from '@mui/material/FormControlLabel';
 // import Checkbox from '@mui/material/Checkbox';
-// import Link from '@mui/material/Link';
-// import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 // import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 // import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { Login } from '../../api/loginAPI';
 import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
 
@@ -77,7 +77,7 @@ export default function LoginPage() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" sx={{ marginTop: '12rem' }}>
         <CssBaseline />
         <Box component="form" onSubmit={handleLoginSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
@@ -114,18 +114,18 @@ export default function LoginPage() {
           >
             Sign In
           </Button>
-          {/* <Grid container>
-              <Grid item xs>
+          <Grid container>
+              {/* <Grid item xs>
                 <Link href="#" variant="body2">
                   Forgot password?
                 </Link>
-              </Grid>
+              </Grid> */}
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link component={RouterLink} to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
-            </Grid> */}
+            </Grid>
         </Box>
       </Container>
     </ThemeProvider>

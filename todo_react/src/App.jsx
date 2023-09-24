@@ -8,6 +8,7 @@ import Home from './components/Home/Home';
 // import Crypto from './components/Crypto/Crypto';
 import Navbar from './components/Routes/Navbar';
 import ProtectedRoutes from './components/Routes/ProtectedRoutes';
+import Register from './components/Login/RegisterForm';
 
 
 const App = () => {
@@ -39,6 +40,7 @@ const App = () => {
             </ProtectedRoutes>
           }
         />
+        <Route path="/register" element={<Register/>}/>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
