@@ -106,9 +106,9 @@ export async function AddNewTodo(payload) {
             },
             body: JSON.stringify(payload), // body data type must match "Content-Type" header
         });
-        console.log("responseee", response);
+        console.log("response", response);
         const jsonData = await response.json();
-        console.log("Iddddd: ", jsonData);
+        console.log("Id: ", jsonData);
         return response.status
 };
 

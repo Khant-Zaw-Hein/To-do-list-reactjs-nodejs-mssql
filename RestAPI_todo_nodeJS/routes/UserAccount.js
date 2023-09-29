@@ -18,4 +18,19 @@ router.route('').post((request, response) => {
     });
 });
 
+router.route('/search').post( async (request, response) => {
+    const {criteria, value} = request.body;
+
+    try{
+        if(criteria === 'username'){
+            console.log('username value: ', value);
+            const result = await userAccountRepo.FindUserAccountByUsername(value);
+            response.json(result);
+        }
+    } catch(err){
+        response.status(400).json({error: "Request Error"});
+    }
+
+})
+
 module.exports = router;

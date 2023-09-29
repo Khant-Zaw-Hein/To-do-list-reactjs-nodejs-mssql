@@ -1,18 +1,44 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Stack, Box } from '@mui/material';
 import { Link } from "react-router-dom";
-
+import { RegisterUser } from '../../api/registerAPI';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
 
 const RegisterForm = () => {
+    const [username, setUsername] = useState('')
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
-    const [dateOfBirth, setDateOfBirth] = useState('')
     const [password, setPassword] = useState('')
-
-    function handleSubmit(event) {
+    // const [dateOfBirth, setDateOfBirth] = useState('')
+    const navigate = useNavigate();
+    
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(firstName, lastName, email, dateOfBirth, password)
+        // console.log(username, firstName, lastName, email, password)
+        try{
+            const responseCode = await RegisterUser(username,firstName,lastName,email,password);
+            if(responseCode === 200){
+            console.log("Registration success");
+            const UserAccount = await GetUserAccountByUsernameAndPassword(username, password);
+            const { UserAccountId, Username } = UserAccount;
+            localStorage.setItem("CurrentUserId", UserAccountId);
+            localStorage.setItem("CurrentUsername", Username);
+            localStorage.setItem("authenticated", true);
+            // redirect to home page + access to protected routes
+            console.log("localstorage", localStorage);
+            navigate("/todo", { replace: true });
+            } else {
+                localStorage.setItem("authenticated", false);
+                console.log("failed to login and redirecting back to registration page");
+                navigate("/register", {replace: true});
+            }
+        }catch (error) {
+            console.log("failed to register");
+            throw new Error("An error occurred during register");
+          }
+
     }
 
     return (
@@ -21,6 +47,17 @@ const RegisterForm = () => {
                 <Box sx={{ minWidth: '30%', maxWidth: '80%', height: '50%' }}>
                     <h2>Register Form</h2>
                     <form onSubmit={handleSubmit} action={<Link to="/login" />} >
+                        <TextField
+                            type="text"
+                            variant='outlined'
+                            color='primary'
+                            label="Username"
+                            onChange={e => setUsername(e.target.value)}
+                            value={username}
+                            fullWidth
+                            required
+                            sx={{ mb: 4 }}
+                        />
                         <Stack spacing={2} direction="row" sx={{ marginBottom: 4 }}>
                             <TextField
                                 type="text"

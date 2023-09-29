@@ -13,10 +13,13 @@ app.use(express.urlencoded({extended: true}))
 const loginRoutes = require("./routes/Login");
 const todoRoutes = require("./routes/Todo");
 const userAccountRoutes = require("./routes/UserAccount");
+const registerRoutes = require("./routes/Register");
+
 app.use("/login", loginRoutes);
 app.use("/todo", todoRoutes);
 app.use("/userAccount", userAccountRoutes);
+app.use("/register", registerRoutes);
 
 var port = process.env.PORT || 4200;
 app.listen(port);
-console.log('todolist api project is running on port: ' + port);
+console.log('todolist api application is running on port: ' + port);
