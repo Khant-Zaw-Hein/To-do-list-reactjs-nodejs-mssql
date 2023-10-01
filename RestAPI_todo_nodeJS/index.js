@@ -20,6 +20,20 @@ app.use("/todo", todoRoutes);
 app.use("/userAccount", userAccountRoutes);
 app.use("/register", registerRoutes);
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // You can specify specific origins instead of '*'
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true); // If your client sends credentials (cookies, HTTP authentication)
+
+    // Handle pre-flight requests (OPTIONS)
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 var port = process.env.PORT || 4200;
 app.listen(port);
 console.log('todolist api application is running on port: ' + port);

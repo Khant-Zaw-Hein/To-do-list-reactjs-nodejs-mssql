@@ -17,9 +17,9 @@ schema
     .has().not().spaces()                           // Should not have spaces
     .is().not().oneOf(['Passw0rd', 'Password', 'password'], 'input keyword is not allowed as password'); // Blacklist these values
 
-// var userAccountRepo = require('../Repository/UserAccountRepository');
+var userAccountRepo = require('../Repository/UserAccountRepository');
 
-router.route('').post(async (request, response) => {
+router.route('').post( async (request, response) => {
     let { username, password, firstName, lastName, email } = request.body;
 
     // Define a regular expression pattern to match non-alphanumeric characters
@@ -71,9 +71,11 @@ router.route('').post(async (request, response) => {
         console.log("registration error, please try again!");
         return response.status(400).json("Registration input error");
     }
-
-
     // return response.status(200).json({ message: "testing register api" })
 });
+
+router.route('/test').post((req, res) => {
+    return res.status(200).json({ message: "testing register api" })
+})
 
 module.exports = router;

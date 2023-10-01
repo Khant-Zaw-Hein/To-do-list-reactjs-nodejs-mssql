@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Stack, Box } from '@mui/material';
 import { Link } from "react-router-dom";
-import { RegisterUser } from '../../api/registerAPI';
+import { registerUser, registerTest } from '../../api/registerAPI';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { GetUserAccountByUsernameAndPassword } from '../../api/loginAPI';
 
@@ -13,20 +13,19 @@ const RegisterForm = () => {
     const [password, setPassword] = useState('')
     // const [dateOfBirth, setDateOfBirth] = useState('')
     const navigate = useNavigate();
-    
-    const handleSubmit = async (event) => {
+
+    const handleRegisterSubmit = async (event) => {
         event.preventDefault();
-        // console.log(username, firstName, lastName, email, password)
+        console.log(username, firstName, lastName, email, password)
+        const responseCode = await registerUser(username, firstName, lastName, email, password);
         try{
-            const responseCode = await RegisterUser(username,firstName,lastName,email,password);
-            if(responseCode === 200){
+            if(responseCode === 201){
             console.log("Registration success");
             const UserAccount = await GetUserAccountByUsernameAndPassword(username, password);
             const { UserAccountId, Username } = UserAccount;
             localStorage.setItem("CurrentUserId", UserAccountId);
             localStorage.setItem("CurrentUsername", Username);
             localStorage.setItem("authenticated", true);
-            // redirect to home page + access to protected routes
             console.log("localstorage", localStorage);
             navigate("/todo", { replace: true });
             } else {
@@ -36,8 +35,9 @@ const RegisterForm = () => {
             }
         }catch (error) {
             console.log("failed to register");
+            console.log(responseCode.error)
             throw new Error("An error occurred during register");
-          }
+        }
 
     }
 
@@ -46,7 +46,7 @@ const RegisterForm = () => {
             <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Box sx={{ minWidth: '30%', maxWidth: '80%', height: '50%' }}>
                     <h2>Register Form</h2>
-                    <form onSubmit={handleSubmit} action={<Link to="/login" />} >
+                    <Box component="form" onSubmit={handleRegisterSubmit}  >
                         <TextField
                             type="text"
                             variant='outlined'
@@ -114,12 +114,10 @@ const RegisterForm = () => {
                     sx={{mb: 4}}
                 /> */}
                         <Button variant="outlined" color="primary" type="submit">Register</Button>
-                    </form>
+                    </Box>
                     <small>Already have an account? <Link to="/login">Login Here</Link></small>
                 </Box>
             </Box>
-
-
         </React.Fragment>
     )
 }
